@@ -21,10 +21,12 @@ export async function POST(req) {
      }
      catch(error){
         if(error.code===11000){
+            console.log(error)
             return Response.json({error:"Shortname already exists"},{status:400})
         }
         
-            return Response.json({error:"Server Error"},{status:500})
+        console.log(error)
+        return Response.json({error:"Server Error"},{status:500})
        
      }
 }
