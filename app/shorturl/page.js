@@ -39,7 +39,7 @@ const Page = () => {
     }
 
     function handleCopy() {
-        navigator.clipboard.writeText("http://localhost:3000/" + shortnameLink)
+        navigator.clipboard.writeText(window.location.origin+"/"+ shortnameLink)
     }
 
 
@@ -127,7 +127,7 @@ const Page = () => {
                         </div>
                         <div className='flex gap-4 w-full border rounded-xl items-center justify-between p-4 h-12 border-slate-800 bg-slate-950/50'>
 
-                            {<div>http://localhost:3000/{shortnameLink}</div>}
+                            {<div>{window.location.origin}/{shortnameLink}</div>}
                             <div onClick={handleCopy} className='cursor-pointer group  rounded-full w-10 h-10 flex justify-center items-center hover:bg-[#6161ff29]'>
                                 <svg className=' fill-white group-hover:fill-blue-300' xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z" />
                                 </svg>
