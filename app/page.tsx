@@ -1,8 +1,13 @@
+"use client"
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Home() {
+  useEffect(() => {
+  fetch("/api/track", { method: "POST" });
+}, []);
   return (
     // min-h-screen ensures the background covers the whole page
     <div className="maincontainer w-full min-h-screen flex justify-center items-center pt-10 bg-[#0a0a0a] text-slate-200">
