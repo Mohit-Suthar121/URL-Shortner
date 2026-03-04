@@ -1,11 +1,13 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 
 const Page = () => {
     useEffect(() => {
         setShortnameLink("")
     }, [])
+    const {data:session} = useSession();
     async function handleClick() {
         setLoading(true);
         const res = await fetch("/api/connectDb", {
@@ -53,7 +55,9 @@ const Page = () => {
     const [loading,setLoading] = useState(false);
 
     return (
-        <div className="maincontainer w-full min-h-screen flex items-center justify-center bg-[#050505] text-slate-200 p-6">
+        <div className="maincontainer w-full min-h-screen flex flex-col items-center justify-center bg-[#050505] text-slate-200 p-6">
+
+            {session && <div className="loggedin text-5xl mb-6 font-bold bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent "> Welcome {session?.user?.name}</div>}
 
             {/* Background Accent Blur - Optional for extra "cool" factor */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-64 h-64 bg-indigo-600/20 blur-[120px] rounded-full pointer-events-none"></div>
