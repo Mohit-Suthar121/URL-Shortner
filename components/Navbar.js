@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Navbar = () => {
     return (
-        <div className="navwrapper w-full h-20 flex justify-center items-center">
+        <div className="bg-[#050505] navwrapper w-full h-20 flex justify-center items-center">
             <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl">
 
                 {/* Main Glass Container */}

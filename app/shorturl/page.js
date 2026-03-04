@@ -1,13 +1,24 @@
 "use client"
 import React, { useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
-
+import { ToastContainer, toast, Bounce } from 'react-toastify';
 
 const Page = () => {
     useEffect(() => {
         setShortnameLink("")
     }, [])
-    const {data:session} = useSession();
+    const notify = () => toast.success('Copied to Clipboard!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+    });;
+    const { data: session } = useSession();
     async function handleClick() {
         setLoading(true);
         const res = await fetch("/api/connectDb", {
@@ -40,8 +51,9 @@ const Page = () => {
 
     }
 
-    function handleCopy() {
-        navigator.clipboard.writeText(window.location.origin+"/"+ shortnameLink)
+    async function handleCopy() {
+        await navigator.clipboard.writeText(window.location.origin + "/" + shortnameLink);
+        notify();
     }
 
 
@@ -52,7 +64,7 @@ const Page = () => {
     const [dataFetched, setDataFetched] = useState(false)
     const [shortnameLink, setShortnameLink] = useState();
     const [shortnameExist, setShortnameExist] = useState(false);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     return (
         <div className="maincontainer w-full min-h-screen flex flex-col items-center justify-center bg-[#050505] text-slate-200 p-6">
@@ -98,7 +110,7 @@ const Page = () => {
                             <label htmlFor="shortname" className="text-sm font-semibold text-slate-400 ml-1 uppercase tracking-wider">
                                 Custom Short Name
                             </label>
-                            {shortnameExist&&<div className="error text-red-400">*Shorname already exists</div>}
+                            {shortnameExist && <div className="error text-red-400">*Shorname already exists</div>}
                         </div>
                         <div className="relative w-full">
                             {/* Small prefix hint for UX */}
@@ -115,12 +127,16 @@ const Page = () => {
                     </div>
 
                     {/* Generate Button */}
-                    <div className="w-full pt-4">
-                        <button disabled={loading} onClick={handleClick} className={`w-full cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl py-4 transition-all duration-300 active:scale-[0.98] shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 group ${loading?"opacity-50":"opacity-100"}`}>
-                            Generate Short URL
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className="w-full pt-4 ">
+                        <button disabled={loading} onClick={handleClick} className={`w-full cursor-pointer bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl py-4 transition-all duration-300 active:scale-[0.98] shadow-lg shadow-indigo-600/20 flex justify-center items-center gap-2 group ${loading ? "opacity-50" : "opacity-100"} `}>
+                         {loading?<div className="w-6 h-6 border-4 border-white border-b-transparent rounded-full inline-block box-border animate-spin"></div>:<div className='flex gap-3 items-center'>
+                            <span> Generate Short URL</span>
+                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
+                         </div>}
+                         
+                           
                         </button>
                     </div>
 
@@ -142,6 +158,17 @@ const Page = () => {
                 </div>
 
             </div>
+            <ToastContainer position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Bounce} />
         </div>
     )
 }
